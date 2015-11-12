@@ -1,11 +1,11 @@
 class Employee {
     constructor(id, name, salary) {
-        if (this.constructor === Abstract) {
-            throw new TypeError('Abstract class "Abstract" cannot be instantiated directly.');
+        if (this.constructor === Employee) {
+            throw new TypeError('Abstract class "Employee" cannot be instantiated directly.');
         }
 
         if (this.getSalary === undefined) {
-            throw new TypeError('Classes extending the Abstract abstract class');
+            throw new TypeError('Classes extending the Employee abstract class');
         }
     }
 }

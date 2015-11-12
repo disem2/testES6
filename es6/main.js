@@ -1,4 +1,8 @@
 import FixedSalaryEmployee from './FixedSalaryEmployee.js';
 import HourlySalaryEmployee from './HourlySalaryEmployee.js';
-let e1 = new HourlySalaryEmployee(1, 'Empl', 50);
-console.log(e1.getSalary());
+import EmployeeCollection from './EmployeeCollection.js';
+var defaultEmployees = null,
+    employeeCollection = new EmployeeCollection();
+employeeCollection.addFromJSON("./data/employeesCollection.json").then(function () {
+    console.log(employeeCollection);
+});
