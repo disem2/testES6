@@ -5,8 +5,25 @@
     <title>Test ES6</title>
     <script type="text/javascript" src="libs/jquery-2.0.2.min.js"></script>
     <script type="text/javascript" src="libs/underscore-min.js"></script>
+    <script type="text/javascript" src="libs/tformer.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" type="text/css"/>
 </head>
 <body>
+<form id="form" class="" method="post" action="">
+    <h2>Add Employee</h2>
+    <label for="id">ID </label>
+    <input id="id" name="id" class="form-field" type="number" maxlength="10" value="">
+    <label for="name">Name </label>
+    <input id="name" name="name" class="form-field" type="text" maxlength="20" value="">
+    <label for="salary-type">Salary Type </label>
+    <select id="salary-type" name="salary_type">
+        <option value="fixed">Fixed</option>
+        <option value="hour">Per-hour</option>
+    </select>
+    <label class="description" for="salary">Salary </label>
+    <input id="salary" name="salary" class="form-field" type="number" maxlength="10" value="">
+    <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit">
+</form>
 <script src="bundle.js"></script>
 </body>
 </html>

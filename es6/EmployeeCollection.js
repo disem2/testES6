@@ -4,14 +4,18 @@ class EmployeeCollection{
     constructor() {
         this.list = [];
     }
-    add(emp) {
+    add(emp, callback) {
         if(!_.where(this.list, {id: emp.id}).length) {
             this.list.push(emp);
-        } else {
+            if(callback && typeof callback === 'function') {
+                callback(this.list);
+            }
+        } else if(callback && typeof callback === 'function') {
+            callback(null, 'This ID exist!')
         }
     }
-    addFromFile(src, callback) {
-        var employee = null;
+    addFromFile(src, res, rej) {
+        let employee = null;
         let self = this;
         let employeeTypes = {
             'HourlySalaryEmployee': HourlySalaryEmployee,
@@ -25,17 +29,45 @@ class EmployeeCollection{
                     self.add(employee);
                 });
                 self.sortListSalaryNameDescending();
-                callback();
+                res(true);
+            },
+            error: function (err) {
+                rej(err);
             }
         });
     }
-    addFromUrl(url) {
+    addFromUrl(url, res, rej) {
+        let employee = null;
         let self = this;
+        let employeeTypes = {
+            'HourlySalaryEmployee': HourlySalaryEmployee,
+            'FixedSalaryEmployee': FixedSalaryEmployee
+        };
         $.get(url, function(data) {
             _.each(data, function (val) {
-                self.add(val);
+                employee = new employeeTypes[val.type](val.id, val.name, val.salary);
+                self.add(employee);
             });
+            self.sortListSalaryNameDescending();
+            res(true);
         });
+    }
+    addFromForm(data, success, error) {
+        let emp = JSON.parse(data);
+        let employeeTypes = {
+            'hour': HourlySalaryEmployee,
+            'fixed': FixedSalaryEmployee
+        };
+        let employee = new employeeTypes[emp.salary_type](+emp.id, emp.name, emp.salary);
+        let callback = function (res, err) {
+            if(res && success && typeof success === 'function') {
+                success(res);
+            } else if (!res && err && error && typeof error === 'function') {
+                error(err);
+            }
+        };
+        this.add(employee, callback);
+
     }
     sortListSalaryNameDescending() {
         Array.prototype.sort.call(this.list, function (e1, e2) {
